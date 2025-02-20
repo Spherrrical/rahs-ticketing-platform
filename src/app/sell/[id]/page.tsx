@@ -1,18 +1,15 @@
 import { supabase } from "@/lib/supabase";
 import SaleForm from "@/components/SaleForm";
 
-export default async function SellPage({
-  params,
-}: {
-  params: { id: string };
-}) {
-  // Ensure params.id is properly awaited
-  const id = await params.id;
+interface Props {
+  params: { id: string }
+}
 
+export default async function SellPage(props: Props) {
   const { data: event } = await supabase
     .from("events")
     .select("*")
-    .eq("id", id)
+    .eq("id", props.params.id)
     .single();
 
   if (!event) {

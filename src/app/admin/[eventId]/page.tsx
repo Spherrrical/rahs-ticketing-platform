@@ -1,15 +1,15 @@
 import { supabase } from "@/lib/supabase";
 import TransactionList from "@/components/TransactionList";
 
-export default async function AdminPage({
-  params,
-}: {
-  params: { eventId: string };
-}) {
+interface Props {
+  params: { eventId: string }
+}
+
+export default async function AdminPage(props: Props) {
   const { data: event } = await supabase
     .from("events")
     .select("*")
-    .eq("id", params.eventId)
+    .eq("id", props.params.eventId)
     .single();
 
   if (!event) {
@@ -23,7 +23,7 @@ export default async function AdminPage({
       *,
       tickets (*)
     `)
-    .eq("event_id", params.eventId)
+    .eq("event_id", props.params.eventId)
     .order('created_at', { ascending: false });
 
   return (
