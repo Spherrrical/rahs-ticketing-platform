@@ -6,10 +6,13 @@ interface Props {
 }
 
 export default async function SellPage(props: Props) {
+  // Await the params object before accessing id
+  const { id } = await props.params;
+
   const { data: event } = await supabase
     .from("events")
     .select("*")
-    .eq("id", props.params.id)
+    .eq("id", id)
     .single();
 
   if (!event) {
